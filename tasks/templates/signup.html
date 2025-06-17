@@ -1,0 +1,12 @@
+
+<h1> Helloo Word!<h1>
+
+
+<form action="/signup/" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <button>
+        signup
+    </button>
+</form>    
