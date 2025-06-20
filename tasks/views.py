@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError #esta biblioteca funciona para mostrar los errores mas detallados que hayamos tenido en la base de datos es decir si estaba haciendo una consulta o enviado datos a este
 from django.http import HttpResponse
-
+from .forms import TaskForm
 
 # Create your views here.
 
@@ -37,6 +37,17 @@ def signup(request):
 def tasks(request):
     return render(request, 'tasks.html')
 
+def create_task(request):
+    if request.method == 'GET':
+        return render(request, 'create_task.html', {
+        'form': TaskForm()
+        })
+    else:
+        print(request.POST)
+        return render(request, 'create_task.html', {
+        'form': TaskForm()
+        })
+
 def signout(request):
     logout(request)
     return redirect('home')
@@ -57,3 +68,4 @@ def signin(request):
         else:
             login(request, user)#este login crea un tipo de autenticacion para el usuario que se acabo de crear para que la aplicacion sepa que usuario se tiene en la base de datos y sepamos que hace en nuestra aplicacion
             return redirect('tasks')
+        
