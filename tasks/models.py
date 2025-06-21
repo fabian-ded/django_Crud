@@ -9,7 +9,7 @@ class Task(models.Model):
     important = models.BooleanField(default=False)#aqui estoy diciendo que todas las tareas que se vayan a crear no van a ser importante mas adelante las marcaremos como true
     user = models.ForeignKey(User, on_delete=models.CASCADE)#se hace la relacion de la clase User es decir, que se esta tabla de task se va a relacionar con la User en la base de datos
     
-    def __str__(self):
+    def __str__(self):#este es una funcion que se utiliza para ver el titulo que viene de la base de datos para que se muestre en la vista del admin que viene por defecto de django
         return self.title + ' - para: ' + self.user.username
     
     

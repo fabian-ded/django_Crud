@@ -43,9 +43,17 @@ def create_task(request):
         'form': TaskForm()
         })
     else:
-        print(request.POST)
-        return render(request, 'create_task.html', {
-        'form': TaskForm()
+        try:
+            form = TaskForm(request.POST)#aqui se contiene todos los datos que el usuario envió a través del formulario HTML,  Esto permite que Django valide esos datos y los prepare para ser guardados en la base de datos.
+            new_tarea = form.save(commit=False)#aqui estoy teniendo con los datos validados del formulario, pero sin guardarla aún en la base de datos, porque se necesita el usuario que esta creando esta tarea es decir se necesita el usuario autenticado
+            new_tarea.user = request.user #aqui estoy relacionando que en usuario que esta creando la tarea (new_tarea.user) es el mismo que está actualmente autenticado y ha iniciado sesión (request.user)
+            #y ademas (new_tarea.user) se necesita para crear la tarea porque en la base de datos se tiene un forenkey de la tabla user y task etonces se necesita si o si el usuario
+            new_tarea.save()#aqui se guardan todos los datos
+            return redirect('tasks')# si todo salio exitoso esta linea se redirige a la vista de tasks
+        except ValueError :
+            return render(request, 'create_task.html', {
+        'form': TaskForm(),
+        'error': 'Por favor ingrese datos validos'
         })
 
 def signout(request):
