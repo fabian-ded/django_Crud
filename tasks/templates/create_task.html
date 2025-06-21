@@ -3,7 +3,7 @@
 {% block content %}
 <h1>create task</h1>
 
-{{% error %}}
+{{ error }}
 
 <form action="/tasks/create/", method="POST">
     {% csrf_token %}

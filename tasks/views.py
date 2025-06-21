@@ -6,6 +6,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError #esta biblioteca funciona para mostrar los errores mas detallados que hayamos tenido en la base de datos es decir si estaba haciendo una consulta o enviado datos a este
 from django.http import HttpResponse
 from .forms import TaskForm
+from .models import Task
 
 # Create your views here.
 
@@ -35,7 +36,10 @@ def signup(request):
                     })
     
 def tasks(request):
-    return render(request, 'tasks.html')
+    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)#aqui estoy haciendo un filtrado es dcir que solo me muestre los resultados del usuario que esta autenticado y ademas que solo me muestre las latareas que aun no se han completado osea no se han entregado fecha, todo eso esta en la base de datos
+    return render(request, 'tasks.html', {
+        'tasks': tasks
+    })
 
 def create_task(request):
     if request.method == 'GET':

@@ -1,5 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <h1>Tareas</h1>
+
+<ul>
+    {% for task in tasks %}
+    <li>
+        {% if task.important %}
+            <h1><strong>{{ task.title}} - {{task.user.username}}</strong></h1>
+        {% else %}
+            <h1> {{task.tilte}} </h1>
+        {% endif %}
+        <p>{{task.description}}</p>
+        <p>{{task.important}}</p>
+    </li>
+    {% endfor %}
+</ul>
+
 {% endblock %}
