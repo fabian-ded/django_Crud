@@ -61,10 +61,27 @@ def create_task(request):
         })
 
 def task_detail (request, task_id):
-    task = get_object_or_404(Task, pk=task_id)#se hace una consulta con el metodo get, ademas siempre se debe colocar dentro de los parentesis la clase (base de datos) y el id el cual vamos a buscar
-    return render(request, 'task_detail.html', {
-        'task': task
-    })
+    if request.method == 'GET':
+        task = get_object_or_404(Task, pk=task_id, user=request.user)#se hace una consulta con el metodo get, ademas siempre se debe colocar dentro de los parentesis la clase (base de datos) y el id el cual vamos a buscar, ademas el "user=request.user" es para que solo el usuario que esta utilizando la aplicacion pueda modificar sus tareas y no la de los demas
+        form = TaskForm(instance=task)
+        return render(request, 'task_detail.html', {
+            'task': task,
+            'form': form
+        })
+    else:
+        try:
+            task = get_object_or_404(Task, pk=task_id, user=request.user)# ese request.user : representa al usuario que ha iniciado sesión en ese momento, Cuando un usuario se autentica (hace login), Django guarda su información y se puede acceder a ella fácilmente con "request.user".
+            #ademas el pk=task_id: se utiliza explicitamente el "pk" Porque es un alias genérico del código lo cual lo hace más flexible y no le importa si la llave primaria se llama id, uuid, mi_llave_personalizada o etc..  con solo poner "pk" ya se sabe que es el id que identifica cada registro y es una buena practica.
+            form = TaskForm(request.POST, instance=task)
+            form.save()
+            return redirect('tasks')
+        except ValueError:
+            return render(request, 'task_detail.html', {
+            'task': task,
+            'form': form,
+            'error': 'Error actualizando tarea'
+        })
+        
 
 def signout(request):
     logout(request)

@@ -12,10 +12,9 @@
             {% if task.important %}
             <h1><strong>{{ task.title}}</strong></h1>
             {% else %}
-                <h1>{{task.tilte}}</h1>
+                {{ task.title}}
             {% endif %}
-            <p>{{task.description}}</p>
-            <p>{{task.important}}</p>
+                <p>{{task.description}}</p>
         </a>
     </li>
     {% endfor %}
