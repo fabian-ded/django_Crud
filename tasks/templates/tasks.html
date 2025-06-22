@@ -2,18 +2,21 @@
 
 {% block content %}
 
-<h1>Tareas</h1>
+<h1>Tareas - {{user.username}}</h1>
 
 <ul>
     {% for task in tasks %}
     <li>
-        {% if task.important %}
-            <h1><strong>{{ task.title}} - {{task.user.username}}</strong></h1>
-        {% else %}
-            <h1> {{task.tilte}} </h1>
-        {% endif %}
-        <p>{{task.description}}</p>
-        <p>{{task.important}}</p>
+        <a href=" {% url 'tasks_detail' task.id %}">
+            <!-- se utiliza la url por si algun usuario preciona el titulo de alguna de sustareas poder ir a ese sitio primero se necesita el html donde se va ir y posteriormente el id sel usuario autenticado -->
+            {% if task.important %}
+            <h1><strong>{{ task.title}}</strong></h1>
+            {% else %}
+                <h1>{{task.tilte}}</h1>
+            {% endif %}
+            <p>{{task.description}}</p>
+            <p>{{task.important}}</p>
+        </a>
     </li>
     {% endfor %}
 </ul>

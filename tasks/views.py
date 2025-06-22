@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 #el "UserCreationForm" es para crear un usuario y el "AuthenticationForm" es para cpprobar si el usuario existe
 from django.contrib.auth.models import User
@@ -59,6 +59,12 @@ def create_task(request):
         'form': TaskForm(),
         'error': 'Por favor ingrese datos validos'
         })
+
+def task_detail (request, task_id):
+    task = get_object_or_404(Task, pk=task_id)#se hace una consulta con el metodo get, ademas siempre se debe colocar dentro de los parentesis la clase (base de datos) y el id el cual vamos a buscar
+    return render(request, 'task_detail.html', {
+        'task': task
+    })
 
 def signout(request):
     logout(request)
