@@ -2,13 +2,13 @@
 
 {% block content %}
 
-<h1>Tareas - {{user.username}}</h1>
+<h1>Tareas pendientes- {{user.username}}</h1>
 
 <ul>
     {% for task in tasks %}
     <li>
         <a href=" {% url 'tasks_detail' task.id %}">
-            <!-- se utiliza la url por si algun usuario preciona el titulo de alguna de sustareas poder ir a ese sitio primero se necesita el html donde se va ir y posteriormente el id sel usuario autenticado -->
+            <!-- se utiliza la url por si algun usuario preciona el titulo de alguna de sus tareas poder ir a ese sitio primero se necesita el html donde se va ir y posteriormente el id sel usuario autenticado -->
             {% if task.important %}
             <h1><strong>{{ task.title}}</strong></h1>
             {% else %}

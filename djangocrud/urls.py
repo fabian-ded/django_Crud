@@ -25,6 +25,8 @@ urlpatterns = [
     path('tasks/', views.tasks, name='tasks'),
     path('tasks/create/', views.create_task, name='create_task'),
     path('tasks/<int:task_id>/', views.task_detail, name='tasks_detail'),
+    path('tasks/<int:task_id>/complete', views.complete_task, name='complete_task'),#se puede utilizar la misma ruta pero no la misma funcion
+    path('tasks/<int:task_id>/Eliminate', views.Eliminate_task, name='Eliminate_task'),#este es para eliminar
     path('logout', views.signout, name='logout'),
     path('signin/', views.signin, name='signin'),
 ]
