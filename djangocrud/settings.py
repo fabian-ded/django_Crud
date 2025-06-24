@@ -117,6 +117,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+LOGIN_URL = '/signin/'#esto se utiliza para redirecionar a la persona que esta intentando ingresar a una vista sin estar autenticado
+#por la funcion @login_required
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

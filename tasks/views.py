@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from .forms import TaskForm
 from .models import Task
 from django.utils import timezone
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -36,13 +36,23 @@ def signup(request):
                     'form': UserCreationForm,
                     'error': 'Contraseña no coincide'
                     })
-    
-def tasks(request):#buscar tareas
+
+@login_required #esta es una funcion de la biblioteca de django que nos permite que cualquier persona la cual no este autenticado no pueda ingresar a cualquier vista solo utilizando la url
+def tasks(request):#buscar tareas no cmpletadas
     tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)#aqui estoy haciendo un filtrado es dcir que solo me muestre los resultados del usuario que esta autenticado y ademas que solo me muestre las latareas que aun no se han completado osea no se han entregado fecha, todo eso esta en la base de datos
     return render(request, 'tasks.html', {
         'tasks': tasks
     })
 
+@login_required#esta es una funcion de la biblioteca de django que nos permite que cualquier persona la cual no este autenticado no pueda ingresar a cualquier vista solo utilizando la url
+def tasks_completed(request):#buscar tareas completadas
+    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=False).order_by('-datecompleted')#aqui estoy haciendo un filtrado es dcir que solo me muestre los resultados del usuario que esta autenticado y ademas que solo me muestre las latareas que aun no se han completado osea no se han entregado fecha, todo eso esta en la base de datos
+    #ademas el 'order_by' es para ordenar en fecha desendente es decir desde la ultima hasta la primera
+    return render(request, 'tasks.html', {
+        'tasks': tasks
+    })
+
+@login_required#esta es una funcion de la biblioteca de django que nos permite que cualquier persona la cual no este autenticado no pueda ingresar a cualquier vista solo utilizando la url
 def create_task(request):#crear tareas
     if request.method == 'GET':
         return render(request, 'create_task.html', {
@@ -62,6 +72,7 @@ def create_task(request):#crear tareas
         'error': 'Por favor ingrese datos validos'
         })
 
+@login_required#esta es una funcion de la biblioteca de django que nos permite que cualquier persona la cual no este autenticado no pueda ingresar a cualquier vista solo utilizando la url
 def task_detail (request, task_id):#actualizar tareas
     if request.method == 'GET':
         task = get_object_or_404(Task, pk=task_id, user=request.user)#se hace una consulta con el metodo get, ademas siempre se debe colocar dentro de los parentesis la clase (base de datos) y el id el cual vamos a buscar, ademas el "user=request.user" es para que solo el usuario que esta utilizando la aplicacion pueda modificar sus tareas y no la de los demas
@@ -83,21 +94,23 @@ def task_detail (request, task_id):#actualizar tareas
             'form': form,
             'error': 'Error actualizando tarea'
         })
-        
+
+@login_required#esta es una funcion de la biblioteca de django que nos permite que cualquier persona la cual no este autenticado no pueda ingresar a cualquier vista solo utilizando la url    
 def complete_task(request, task_id):#marcar una tarea
     task = get_object_or_404(Task, pk=task_id, user=request.user)
     if request.method == 'POST':
         task.datecompleted = timezone.now()#aqui optengo el dato de la hora actual
         task.save()#aqui salvo la informacion que optuve y la mando a la base de datos o mejor dicho a la clase TASK que es lo mismo
         return redirect('tasks')
-    
+
+@login_required#esta es una funcion de la biblioteca de django que nos permite que cualquier persona la cual no este autenticado no pueda ingresar a cualquier vista solo utilizando la url
 def Eliminate_task(request, task_id):#eliminar tareas
     task = get_object_or_404(Task, pk=task_id, user=request.user)#se buscan las tareas del usuario
     if request.method == 'POST':#si en el html se esta utilizando el metodo 'POST' pues se ejecuta esta linea
         task.delete()#y aqui elimina lo que el usuario quiere eliminar
         return redirect('tasks')
     
-
+@login_required#esta es una funcion de la biblioteca de django que nos permite que cualquier persona la cual no este autenticado no pueda ingresar a cualquier vista solo utilizando la url
 def signout(request):
     logout(request)
     return redirect('home')

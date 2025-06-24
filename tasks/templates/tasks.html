@@ -14,7 +14,10 @@
             {% else %}
                 {{ task.title}}
             {% endif %}
-                <p>{{task.description}}</p>
+            <p>{{task.description}}</p>
+
+            <p>{{task.datecompleted|date:'M j Y:i'}}</p> <!-- se utiliza para mostrar la fecha de cuando se completo la tarea -->
+
         </a>
     </li>
     {% endfor %}
