@@ -1,17 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1> Helloo Word!<h1>
 
-{{error}}
 
-<form method="post">
-    {% csrf_token %}
-    {{form.as_p}}
+<main class="container">
+    <div class="row">
+        <div class="col-md-9 offset-md-1 mt-3">
+            <form method="POST" class="card card-body">
+            <h1 class="text-center form-label mb-5">Register Django APP!<h1>
+            {{error}}
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="username" class="form-label">Nombre de usuario</label>
+                <input type="text" name="username" id="username" class="form-control" placeholder="Escribe tu nombre">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password1" name="password1" id="password1" class="form-control" placeholder="Escribe tu nombre">
+            </div>
+            <div class="mb-3">
+                <label for="password2" class="form-label">Confirmar contraseña</label>
+                <input type="password" name="password2" id="password2" class="form-control" placeholder="Escribe tu nombre">
+            </div>
 
-    <button>
-        signup
-    </button>
-</form>    
+            <button class="btn btn-outline-success">
+                signup
+            </button>
+            </form>
+        </div>
+    </div>
+</main> 
 
 {% endblock %}

@@ -4,40 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>django CRUD</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
 </head>
 <body>
     
-    <nav>
-        <ul>
-            <li>
-                <a href="/">Home</a>
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">Django APP</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+                <a href="/" class="nav-link">Home</a>
             </li>
-            
             <!-- aqui abajo estamos diciendo que si el usuario esta autenticado puede ver esa ruta y si no pues debe registrarse en signup -->
             {% if user.is_authenticated %}
-            <li>
-                <a href="/tasks">tasks</a>
+            <li class="nav-item">
+                <a href="/tasks" class="nav-link">tasks</a>
             </li>
-            <li>
-                <a href="/tasks/create">create task</a>
+            <li class="nav-item">
+                <a href="/tasks/create" class="nav-link">create task</a>
             </li>
-            <li>
-                <a href="/tasks_completed">tasks completed</a>
+            <li class="nav-item">
+                <a href="/tasks_completed" class="nav-link">tasks completed</a>
             </li>
-            <li>
-                <a href="/logout">logout</a>
+            <li class="nav-item">
+                <a href="/logout" class="nav-link">logout</a>
             </li>
             {% else%}
-            <li>
-                <a href="/signup">Signup</a>
+            <li class="nav-item">
+                <a href="/signup" class="nav-link">Signup</a>
             </li>
-            <li>
-                <a href="/signin">signin</a>
+            <li class="nav-item">
+                <a href="/signin" class="nav-link">signin</a>
             </li>
             {% endif %}
-        </ul>
-    </nav>
-
+      </ul>
+    </div>
+  </div>
+</nav>
     {%block content%}
     {% endblock %}
 
